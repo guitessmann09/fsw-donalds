@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Restaurant {
+  id             String         @id @default(uuid())
+  name           String
+  slug           String
+  description    String
+  avatarImageUrl String
+  coverImageUrl  String
+  menuCategories MenuCategory[]
+  products       Products[]
+  orders         Order[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+model MenuCategory {
+  id           String     @id @default(uuid())
+  name         String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId String
+  products     Products[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Products {
+  id             String         @id @default(uuid())
+  name           String
+  description    String
+  price          Float
+  imageUrl       String
+  ingredients    String[]
+  restaurant     Restaurant     @relation(fields: [restaurantId], references: [id])
+  restaurantId   String
+  menuCategory   MenuCategory   @relation(fields: [menuCategoryId], references: [id])
+  menuCategoryId String
+  orderProducts  OrderProduct[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+model Order {
+  id                Int               @id @default(autoincrement())
+  total             Float
+  status            OrderStatus
+  consumptionMethod ConsumptionMethod
+  restaurant        Restaurant        @relation(fields: [restaurantId], references: [id])
+  restaurantId      String
+  products          OrderProduct[]
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model OrderProduct {
+  id        String   @id @default(uuid())
+  quantity  Int
+  price     Float
+  product   Products @relation(fields: [productId], references: [id])
+  productId String
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  IN_PREPARATION
+  FINISHED
+}
+
+enum ConsumptionMethod {
+  TAKEWAY
+  DINE_IN
+}
