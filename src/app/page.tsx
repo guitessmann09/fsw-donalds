@@ -1,6 +1,6 @@
 const HomePage = () => {
   return (
-    <h1 className="text-red-500 text-9xl font-bold text-center border-b-2 border-red-500">
+    <h1 className="border-b-2 border-red-500 text-center text-9xl font-bold text-red-500">
       Hello Word
     </h1>
   );
