@@ -1,8 +1,9 @@
-import { FormatCurrency } from "@/helpers/format-currency";
 import { Product } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+
+import { FormatCurrency } from "@/helpers/format-currency";
 
 interface ProductsProps {
   products: Product[];
