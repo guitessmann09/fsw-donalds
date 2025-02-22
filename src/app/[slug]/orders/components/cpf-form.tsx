@@ -15,7 +15,6 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/components/ui/drawer";
 import {
   Form,
@@ -52,7 +51,7 @@ const CpfForm = () => {
   const pathName = usePathname();
 
   const onSubmit = (data: FormSchema) => {
-    router.push(`${pathName}?cpf=${removeCpfPonctuation(data.cpf)}`);
+    router.replace(`${pathName}?cpf=${removeCpfPonctuation(data.cpf)}`);
   };
   const handleCancel = () => {
     router.back();
@@ -60,7 +59,6 @@ const CpfForm = () => {
 
   return (
     <Drawer open>
-      <DrawerTrigger>Open</DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Visualizar Pedidos</DrawerTitle>
